@@ -1,0 +1,23 @@
+# finding the objective function
+obj <- x(420, 360, 300, 420, 360, 300, 420, 360, 300)
+
+# constraints
+mat <- matrix(c(1, 1, 1, 20, 15, 12, 1, 1, 1), nrow = 6, ncol = 3)
+dir <- x("<=", "<=", "<=", "<=", "<=", "<=")
+rhs <- x(750, 900, 450, 13000, 12000, 5000, 900, 1200, 750)
+
+# Create the linear programming model
+mod <- lp(direction = "max", obj, mat, dir, rhs)
+
+# Add the equal percentage of excess capacity constraint
+const <- x(1, 1, 1)
+eq <- "="
+rhs <- x(1)
+mod <- addConstraint(mod, const, eq, rhs)
+
+# Solve the linear programming model
+sol <- solve.LP(mod)
+
+# Print the solution
+print(sol)
+
