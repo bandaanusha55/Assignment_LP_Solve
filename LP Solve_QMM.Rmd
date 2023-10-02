@@ -1,0 +1,47 @@
+---
+title: "LP Solve_QMM"
+author: "Anusha Banda"
+date: "2023-10-02"
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r}
+library(lpSolve)
+
+obj_coef <- c(420, 360, 300, 420, 360, 300, 420, 360, 300)
+
+A <- matrix(data = c(
+  1, 1, 1, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 1, 1, 1, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 1, 1, 1,
+  20, 15, 12, 0, 0, 0, 0, 0, 0, 
+  0, 0, 0, 20, 15, 12, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 20, 15, 12,
+  1, 0, 0, 1, 0, 0, 1, 0, 0,
+  0, 1, 0, 0, 1, 0, 0, 1, 0,
+  0, 0, 1, 0, 0, 1, 0, 0, 1,
+  1/750, 1/750, 1/750, 1/900, 1/900, 1/900, 1/450, 1/450, 1/450
+), nrow = 9, byrow = TRUE)
+
+rhs <- c(750, 900, 450, 13000, 12000, 5000, 900, 1200, 750)
+
+con_types <- rep("<=", 9)
+
+lp_result <- lp(direction = "max", obj_coef, A, con_types, rhs)
+
+cat("Solution Status:", lp_result$status, "\n")
+cat("Optimal Solution:\n")
+cat("L1 =", lp_result$solution[1], "\n")
+cat("M1 =", lp_result$solution[2], "\n")
+cat("S1 =", lp_result$solution[3], "\n")
+cat("L2 =", lp_result$solution[4], "\n")
+cat("M2 =", lp_result$solution[5], "\n")
+cat("S2 =", lp_result$solution[6], "\n")
+cat("L3 =", lp_result$solution[7], "\n")
+cat("M3 =", lp_result$solution[8], "\n")
+cat("S3 =", lp_result$solution[9], "\n")
+cat("Optimal Profit (Z) =", lp_result$objval, "\n")
+
+```
+
